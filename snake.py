@@ -23,6 +23,8 @@ snake_speed = 15
 font_style = pygame.font.SysFont("bahnschrift", 25)
 score_font = pygame.font.SysFont("comicsansms", 35)
 
+high_score = 0  # this will be updated when a new record is reached
+
 def our_snake(snake_block, snake_list):
     for x in snake_list:
         pygame.draw.rect(display, black, [x[0], x[1], snake_block, snake_block])
@@ -31,11 +33,16 @@ def message(msg, color):
     mesg = font_style.render(msg, True, color)
     display.blit(mesg, [width / 6, height / 3])
 
-def show_score(score):
+def show_score(score, high_score):
     value = score_font.render("Score: " + str(score), True, yellow)
     display.blit(value, [10, 10])
 
+    high = score_font.render("Highest: " + str(high_score), True, yellow)
+    display.blit(high, [10, 50])  # below the current score
+
 def gameLoop():
+    global high_score  # so we can update the highest score
+
     game_over = False
     game_close = False
 
@@ -59,7 +66,7 @@ def gameLoop():
         while game_close:
             display.fill(blue)
             message("You Lost! Press R-Play Again or Q-Quit", red)
-            show_score(score)
+            show_score(score, high_score)
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -115,7 +122,7 @@ def gameLoop():
                 game_close = True
 
         our_snake(snake_block, snake_List)
-        show_score(score)
+        show_score(score, high_score)
         pygame.display.update()
 
         if x1 == foodx and y1 == foody:
@@ -123,6 +130,8 @@ def gameLoop():
             foody = random.randrange(0, height - snake_block + 1, snake_block)
             Length_of_snake += 1
             score += 1
+            if score > high_score:
+                high_score = score  # update the highest score
 
         clock.tick(snake_speed)
 
