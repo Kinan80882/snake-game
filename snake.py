@@ -1,5 +1,6 @@
 import pygame
 import random
+from pathlib import Path
 
 pygame.init()
 
@@ -23,7 +24,18 @@ snake_speed = 15
 font_style = pygame.font.SysFont("bahnschrift", 25)
 score_font = pygame.font.SysFont("comicsansms", 35)
 
-high_score = 0  # this will be updated when a new record is reached
+HIGH_SCORE_FILE = Path("high_score.txt")
+
+def load_high_score():
+    try:
+        return int(HIGH_SCORE_FILE.read_text().strip())
+    except (FileNotFoundError, ValueError):
+        return 0
+
+def save_high_score(value):
+    HIGH_SCORE_FILE.write_text(str(value))
+
+high_score = load_high_score()
 
 def our_snake(snake_block, snake_list):
     for x in snake_list:
@@ -38,10 +50,10 @@ def show_score(score, high_score):
     display.blit(value, [10, 10])
 
     high = score_font.render("Highest: " + str(high_score), True, yellow)
-    display.blit(high, [10, 50])  # below the current score
+    display.blit(high, [10, 50])
 
 def gameLoop():
-    global high_score  # so it can update the highest score
+    global high_score
 
     game_over = False
     game_close = False
@@ -131,7 +143,8 @@ def gameLoop():
             Length_of_snake += 1
             score += 1
             if score > high_score:
-                high_score = score  # update the highest score
+                high_score = score
+                save_high_score(high_score)
 
         clock.tick(snake_speed)
 
