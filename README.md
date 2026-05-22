@@ -2,6 +2,5 @@
 very simple snake game
 
 TODO:
-  - Save high score
-  - Add WASD keys for movement
-  - Change map, player and food appearance
+  - [ ] Save high score
+  - [ ] Change map, player and food appearance
