@@ -41,7 +41,7 @@ def show_score(score, high_score):
     display.blit(high, [10, 50])  # below the current score
 
 def gameLoop():
-    global high_score  # so we can update the highest score
+    global high_score  # so it can update the highest score
 
     game_over = False
     game_close = False
@@ -85,19 +85,19 @@ def gameLoop():
                 game_over = True
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT and current_direction != "right":
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a and current_direction != "right":
                     x1_change = -snake_block
                     y1_change = 0
                     current_direction = "left"
-                elif event.key == pygame.K_RIGHT and current_direction != "left":
+                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d and current_direction != "left":
                     x1_change = snake_block
                     y1_change = 0
                     current_direction = "right"
-                elif event.key == pygame.K_UP and current_direction != "down":
+                elif event.key == pygame.K_UP or event.key == pygame.K_w and current_direction != "down":
                     y1_change = -snake_block
                     x1_change = 0
                     current_direction = "up"
-                elif event.key == pygame.K_DOWN and current_direction != "up":
+                elif event.key == pygame.K_DOWN or event.key == pygame.K_s and current_direction != "up":
                     y1_change = snake_block
                     x1_change = 0
                     current_direction = "down"
